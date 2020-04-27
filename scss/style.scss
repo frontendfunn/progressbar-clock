@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css?family=Barlow");
+$color1: #2f2f2f;
+$color2: #171D1C;
+$color3: #EBEBD3;
+$white: #ffffff;
+$fontFamily: "Barlow", sans-serif;
+@function rem($value) {
+  @return unquote(($value/1px)/16+"rem");
+}
+@mixin transition {
+  transition: all ease 1s;
+}
+@mixin boxShadow {
+  box-shadow: rgba(255, 255, 255, 0.1) 0 1px 0,
+    rgba(0, 0, 0, 0.8) 0 1px 7px 0px inset;
+}
+body {
+  background-color: $color1;
+  font-family: $fontFamily;
+}
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h4 {
+  margin: 0 auto;
+  font-size: rem(20px);
+  color: $white;
+}
+
+.barClock {
+  width: rem(500px);
+  height: rem(300px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  .bar {
+    width: 100%;
+    height: rem(40px);
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+    background-color: darken($color1, 5%);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    @include boxShadow();
+    .progress {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-color: darken($color1, 10%);
+      z-index: 1;
+      overflow: hidden;
+      @include transition();
+      @include boxShadow();
+      &.stripped {
+        background-image: linear-gradient(
+          -45deg,
+          rgba($color2, 1),
+          rgba($color3, 1) 25%,
+          rgba($color2, 1) 50%,
+          rgba($color3, 1) 75%,
+          rgba($color2, 1)
+        );
+        background-size: rem(8px) rem(8px);
+        &.animated {
+          animation: animatedProgressBar 0.5s linear infinite;
+        }
+      }
+    }
+    .value {
+      display: inline-flex;
+      justify-content: center;
+      font-size:rem(16px);
+      padding:rem(4px);
+      width: rem(30px);
+      position: relative;
+      z-index: 2;
+      color: lighten($white, 20%);
+      background-color: darken($color1, 5%);
+      border-radius:rem(4px);
+      @include boxShadow();
+      @include transition();
+    }
+  }
+}
+
+@keyframes animatedProgressBar {
+  0% {
+    background-position: rem(8px) 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
